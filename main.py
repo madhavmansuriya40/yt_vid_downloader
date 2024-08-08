@@ -1,9 +1,7 @@
 import tkinter as tk
 import customtkinter as ctk
-from pytube import YouTube
-import ssl
+from pytubefix import YouTube
 
-ssl._create_default_https_context = ssl._create_stdlib_context
 
 def start_download():
     try:
@@ -12,10 +10,10 @@ def start_download():
         yt_object = YouTube(yt_link)
         video = yt_object.streams.get_highest_resolution()
         video.download()
+        print("Download complete")
     except Exception as e:
         print(f"There was some error downloading the video -> {e}")
 
-    print("Download complete")
 
 # system settings
 app = ctk.CTk()
