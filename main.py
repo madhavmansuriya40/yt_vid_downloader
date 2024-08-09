@@ -22,7 +22,11 @@ def start_download():
 
         yt_link = link.get()
         yt_object = YouTube(yt_link, on_progress_callback=on_progress)
-        video = yt_object.streams.get_highest_resolution()
+        if check_var.get() == 'on':
+            print("downloading audio")
+            video = yt_object.streams.get_audio_only()
+        else:
+            video = yt_object.streams.get_highest_resolution()
 
         title.configure(text=yt_object.title, text_color='white')
         title.update()
@@ -34,6 +38,9 @@ def start_download():
         print(f"There was some error downloading the video -> {e}")
         finish_label.configure(text="Somwthing went wrong!", text_color='red')
 
+
+def checkbox_event():
+    print("checkbox toggled, current value:", check_var.get())
 
 # system settings
 app = ctk.CTk()
@@ -51,9 +58,18 @@ title = ctk.CTkLabel(app, text="Insert a youtube link")
 title.pack(padx=10, pady=10)
 
 
+frame = ctk.CTkFrame(master=app, width=200, height=200)
+frame.pack(padx=10, pady=10)
+
+
 url_var = tk.StringVar()
-link = ctk.CTkEntry(app, width=350, height=40, textvariable=url_var)
-link.pack()
+link = ctk.CTkEntry(frame, width=350, height=40, textvariable=url_var)
+link.pack(side='left')
+
+check_var = ctk.StringVar(value="off")
+checkbox = ctk.CTkCheckBox(frame, text="Audio Only", command=checkbox_event,
+                                     variable=check_var, onvalue="on", offvalue="off")
+checkbox.pack(padx=10, pady=10,side='left')
 
 download = ctk.CTkButton(app, text="Download", command=start_download)
 download.pack(padx=10, pady=10)
