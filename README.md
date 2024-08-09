@@ -1,4 +1,4 @@
-Small project on downloading youtube video using python
+Small project on downloading high quality Youtube video or only audio
 
 You can run this using `python3 main.py`
 
